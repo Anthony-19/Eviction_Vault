@@ -1,7 +1,7 @@
 # Eviction Vault - Security Hardening & Modular Refactor
 
 
-## 📋 Project Overview
+## Project Overview
 
 This project successfully refactors the monolithic EvictionVault smart contract into a **secure, modular architecture**. It implements a multi-signature vault system with Merkle-based claims, timelock execution, and comprehensive access controls.
 
@@ -127,15 +127,9 @@ require(!txn.executed, "already executed");
 ### Running Tests
 
 ```bash
-# All tests with full output
 forge test -vvvv
 
-# Specific test
 forge test --match testDeposit -vvv
-
-# Exclude Counter test
-forge test --no-match Counter
-```
 
 ---
 
