@@ -17,23 +17,17 @@ contract EvictionVaultTest is Test {
         owner2 = makeAddr("owner2");
         user = makeAddr("user");
 
-        // ✅ Create a memory array of owners for constructor
         address[] memory owners = new address[](2);
         owners[0] = owner1;
         owners[1] = owner2;
 
-        // Deploy the vault with the owners and threshold
         vault = new EvictionVault(owners, 2);
 
-        // Fund addresses for testing
         vm.deal(owner1, 10 ether);
         vm.deal(owner2, 10 ether);
         vm.deal(user, 10 ether);
     }
 
-    /* ------------------------------------------------------------ */
-    /* Deposit Test */
-    /* ------------------------------------------------------------ */
     function testDeposit() public {
         vm.prank(user);
         vault.deposit{value: 1 ether}();
@@ -42,9 +36,6 @@ contract EvictionVaultTest is Test {
         assertEq(balance, 1 ether);
     }
 
-    /* ------------------------------------------------------------ */
-    /* Withdraw Test */
-    /* ------------------------------------------------------------ */
     function testWithdraw() public {
         vm.startPrank(user);
 
@@ -57,9 +48,7 @@ contract EvictionVaultTest is Test {
         assertEq(balance, 1 ether);
     }
 
-    /* ------------------------------------------------------------ */
-    /* Pause Test */
-    /* ------------------------------------------------------------ */
+
     function testPause() public {
         vm.prank(owner1);
         vault.pause();
@@ -68,9 +57,6 @@ contract EvictionVaultTest is Test {
         assertTrue(paused);
     }
 
-    /* ------------------------------------------------------------ */
-    /* Unpause Test */
-    /* ------------------------------------------------------------ */
     function testUnpause() public {
         vm.startPrank(owner1);
 
@@ -83,9 +69,6 @@ contract EvictionVaultTest is Test {
         assertTrue(!paused);
     }
 
-    /* ------------------------------------------------------------ */
-    /* Multisig Submit + Confirm */
-    /* ------------------------------------------------------------ */
     function testSubmitAndConfirmTransaction() public {
         vm.prank(owner1);
         vault.submitTransaction(user, 1 ether, "");
@@ -102,9 +85,6 @@ contract EvictionVaultTest is Test {
         assertTrue(executionTime > 0);
     }
 
-    /* ------------------------------------------------------------ */
-    /* Emergency Withdraw */
-    /* ------------------------------------------------------------ */
     function testEmergencyWithdraw() public {
         vm.prank(user);
         vault.deposit{value: 1 ether}();
